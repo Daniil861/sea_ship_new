@@ -704,21 +704,21 @@ body._loaded {
 .battleship__pl2-image-fire {
   position: absolute;
   top: -3px;
-  left: -5px;
+  left: -4px;
   z-index: 2;
   opacity: 0;
   visibility: hidden;
 }
 .battleship__pl2-image-fire img {
-  max-width: 2.25rem;
+  max-width: 2rem;
 }
 @media (max-width: 50em) {
   .battleship__pl2-image-fire {
-    top: -5px;
-    left: -6px;
+    top: -3px;
+    left: -3px;
   }
   .battleship__pl2-image-fire img {
-    max-width: 1.75rem;
+    max-width: 1.625rem;
   }
 }
 .battleship__pl2-target {
