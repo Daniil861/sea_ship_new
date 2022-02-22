@@ -108,10 +108,23 @@ h6 {
   font-size: inherit;
 }
 
+body {
+  opacity: 0;
+  visibility: hidden;
+  position: relative;
+  top: -120%;
+  transition: opacity 0.3s ease 0s;
+}
 .lock body {
   overflow: hidden;
   touch-action: none;
 }
+body._loaded {
+  opacity: 1;
+  visibility: visible;
+  top: 0;
+}
+
 .wrapper {
   min-height: 100%;
   display: none;
@@ -208,7 +221,7 @@ h6 {
   display: inline-flex;
   justify-content: center;
   width: 10px;
-  height: 10px;
+  height: 20px;
   opacity: 1;
   visibility: visible;
 }
@@ -503,12 +516,16 @@ h6 {
 }
 .game__inner {
   width: 100%;
-  height: 100%;
+  height: 4.4375rem;
   transform-style: preserve-3d;
   transition: all 0.8s ease 0s;
 }
 .game__inner._visible {
   transform: rotateY(-180deg);
+}
+.game__inner._visible .game__image,
+.game__inner._visible .game__points {
+  opacity: 1;
 }
 .game__front, .game__back {
   position: absolute;
@@ -556,6 +573,14 @@ h6 {
 }
 .game__back {
   transform: rotateY(-180deg);
+}
+.game__image {
+  opacity: 0;
+  transition: all 1.5s ease 0s;
+}
+.game__points {
+  opacity: 0;
+  transition: all 1.5s ease 0s;
 }
 .game__points span {
   font-weight: 700;
@@ -608,7 +633,6 @@ h6 {
 .battleship__field_player2 {
   display: grid;
   grid-template: repeat(10, 1fr)/repeat(10, 1fr);
-  gap: 0.125rem;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -639,6 +663,7 @@ h6 {
 .battleship__field_player2._atack::after, .battleship__field_player2._radar::after {
   opacity: 1;
   visibility: visible;
+  pointer-events: none;
 }
 .battleship__pl2 {
   position: relative;
@@ -763,6 +788,7 @@ h6 {
   line-height: 1.8125rem;
   text-transform: uppercase;
   color: #ffffff;
+  margin-bottom: 0.625rem;
 }
 .win-battleship__btn {
   margin-bottom: 0.625rem;
@@ -902,9 +928,10 @@ h6 {
   font-size: 0.75rem;
   line-height: 0.8125rem;
   color: #ffffff;
+  display: flex;
 }
 .header-battleship__point._anim-size {
-  animation: move-points-size 0.6s ease;
+  animation: move-points-jump 1s ease;
   animation-delay: 0.6s;
 }
 
@@ -1044,54 +1071,57 @@ h6 {
   0% {
     color: yellow;
   }
-  20% {
+  5% {
     color: yellow;
-    font-size: 0.875rem;
+    transform: translateY(-0.03px);
   }
-  35% {
+  10% {
     color: yellow;
-    font-size: 1rem;
+    transform: translateY(-3px);
   }
-  45% {
+  15% {
     color: yellow;
-    font-size: 1.125rem;
-  }
-  55% {
-    color: yellow;
-    font-size: 1rem;
-  }
-  70% {
-    color: yellow;
-    font-size: 0.875rem;
+    transform: translateY(-2px);
   }
   100% {
     color: yellow;
-    font-size: 0.75rem;
+  }
+}
+@keyframes move-points-jump {
+  0% {
+    color: #ffff9d;
+  }
+  1% {
+    color: #ffff9d;
+    transform: translateY(-1px);
+  }
+  10% {
+    color: #ffff9d;
+    transform: translateY(-1.5px);
+  }
+  15% {
+    color: #ffff9d;
+    transform: translateY(-1px);
+  }
+  100% {
+    color: #ffff9d;
   }
 }
 @keyframes move-points-size-red {
   0% {
     color: red;
   }
-  20% {
+  5% {
     color: red;
-    font-size: 0.875rem;
+    transform: translateY(-0.03px);
   }
-  35% {
+  10% {
     color: red;
-    font-size: 1rem;
+    transform: translateY(-3px);
   }
-  45% {
+  15% {
     color: red;
-    font-size: 1.125rem;
-  }
-  55% {
-    color: red;
-    font-size: 1rem;
-  }
-  70% {
-    color: red;
-    font-size: 0.875rem;
+    transform: translateY(-2px);
   }
   100% {
     color: red;
@@ -1103,22 +1133,19 @@ h6 {
     transform: translateY(0);
   }
   20% {
-    transform: translateY(-4px) rotate(5deg);
+    transform: rotate(5deg);
   }
   30% {
-    transform: translateY(-6px) rotate(-5deg);
+    transform: rotate(-5deg);
   }
   40% {
-    transform: translateY(-8px) rotate(5deg);
+    transform: rotate(5deg);
   }
   50% {
-    transform: translateY(-6px) rotate(-5deg);
-  }
-  90% {
-    transform: translateY(-4px);
+    transform: rotate(-5deg);
   }
   100% {
-    transform: translateY(-2px);
+    transform: rotate(0deg);
   }
 }
 @keyframes move-points {
