@@ -22,6 +22,11 @@
             }));
         }
     }), 0);
+    window.addEventListener("load", (function() {
+        if (document.querySelector("body")) setTimeout((function() {
+            document.querySelector("body").classList.add("_loaded");
+        }), 200);
+    }));
     if (sessionStorage.getItem("preloader")) {
         if (document.querySelector(".preloader")) document.querySelector(".preloader").classList.add("_hide");
         document.querySelector(".wrapper").classList.add("_visible");
@@ -151,11 +156,13 @@
             let a = sessionStorage.getItem("tomahawk");
             sessionStorage.setItem("tomahawk", a - 1);
             if (0 == sessionStorage.getItem("tomahawk")) document.querySelector(".actives-battleship__image_lock-tomahawk").classList.remove("_hide");
+            if (sessionStorage.getItem("tomahawk") >= 0) field_player2.classList.add("_atack");
         }
         if (targetElement.closest(".button_green")) {
             let a = sessionStorage.getItem("radar");
             sessionStorage.setItem("radar", a - 1);
             if (0 == sessionStorage.getItem("radar")) document.querySelector(".actives-battleship__image_lock-radar").classList.remove("_hide");
+            if (sessionStorage.getItem("radar") >= 0) field_player2.classList.add("_radar");
         }
         if (targetElement.closest(".battleship__field_player2") && !targetElement.closest(".battleship__field_player2").classList.contains("_atack") && !targetElement.closest(".battleship__field_player2").classList.contains("_radar")) {
             if (targetElement.closest(".battleship__pl2").dataset.target && 0 != targetElement.closest(".battleship__pl2").dataset.target) {
@@ -179,9 +186,15 @@
             field_player2.classList.remove("_atack");
             if (1 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
+                if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
+                    let a = sessionStorage.getItem("pl2-points");
+                    a -= 1;
+                    sessionStorage.setItem("pl2-points", a);
+                }
                 datasetElements.forEach((el => {
                     if (1 == el.dataset.place) {
                         el.classList.add("_active");
+                        el.dataset.compl = 0;
                         if (el.dataset.target) el.classList.add("_visible");
                     }
                 }));
@@ -190,15 +203,18 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 1;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
+                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (2 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
+                if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
+                    let a = sessionStorage.getItem("pl2-points");
+                    a -= 4;
+                    sessionStorage.setItem("pl2-points", a);
+                }
                 datasetElements.forEach((el => {
                     if (2 == el.dataset.place) {
                         el.classList.add("_active");
+                        el.dataset.compl = 0;
                         if (el.dataset.target) el.classList.add("_visible");
                     }
                 }));
@@ -207,15 +223,18 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 4;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
+                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (3 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
+                if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
+                    let a = sessionStorage.getItem("pl2-points");
+                    a -= 2;
+                    sessionStorage.setItem("pl2-points", a);
+                }
                 datasetElements.forEach((el => {
                     if (3 == el.dataset.place) {
                         el.classList.add("_active");
+                        el.dataset.compl = 0;
                         if (el.dataset.target) el.classList.add("_visible");
                     }
                 }));
@@ -224,15 +243,18 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 2;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
+                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (4 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
+                if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
+                    let a = sessionStorage.getItem("pl2-points");
+                    a -= 5;
+                    sessionStorage.setItem("pl2-points", a);
+                }
                 datasetElements.forEach((el => {
                     if (4 == el.dataset.place) {
                         el.classList.add("_active");
+                        el.dataset.compl = 0;
                         if (el.dataset.target) el.classList.add("_visible");
                     }
                 }));
@@ -241,15 +263,18 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 5;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
+                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (5 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
+                if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
+                    let a = sessionStorage.getItem("pl2-points");
+                    a -= 3;
+                    sessionStorage.setItem("pl2-points", a);
+                }
                 datasetElements.forEach((el => {
                     if (5 == el.dataset.place) {
                         el.classList.add("_active");
+                        el.dataset.compl = 0;
                         if (el.dataset.target) el.classList.add("_visible");
                     }
                 }));
@@ -258,15 +283,18 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 3;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
+                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (6 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
+                if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
+                    let a = sessionStorage.getItem("pl2-points");
+                    a -= 3;
+                    sessionStorage.setItem("pl2-points", a);
+                }
                 datasetElements.forEach((el => {
                     if (6 == el.dataset.place) {
                         el.classList.add("_active");
+                        el.dataset.compl = 0;
                         if (el.dataset.target) el.classList.add("_visible");
                     }
                 }));
@@ -275,10 +303,7 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 3;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
+                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (7 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
                 datasetElements.forEach((el => {
@@ -291,9 +316,15 @@
                 }), 2e3);
             } else if (8 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
+                if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
+                    let a = sessionStorage.getItem("pl2-points");
+                    a -= 1;
+                    sessionStorage.setItem("pl2-points", a);
+                }
                 datasetElements.forEach((el => {
                     if (8 == el.dataset.place) {
                         el.classList.add("_active");
+                        el.dataset.compl = 0;
                         if (el.dataset.target) el.classList.add("_visible");
                     }
                 }));
@@ -302,10 +333,7 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 1;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
+                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
             }
         } else if (targetElement.closest(".battleship__field_player2") && field_player2.classList.contains("_radar")) {
             field_player2.classList.remove("_radar");
@@ -322,10 +350,6 @@
                         el.classList.remove("_active-radar");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 1;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (2 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
                 datasetElements.forEach((el => {
@@ -339,10 +363,6 @@
                         el.classList.remove("_active-radar");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 4;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (3 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
                 datasetElements.forEach((el => {
@@ -356,10 +376,6 @@
                         el.classList.remove("_active-radar");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 2;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (4 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
                 datasetElements.forEach((el => {
@@ -373,10 +389,6 @@
                         el.classList.remove("_active-radar");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 5;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (5 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
                 datasetElements.forEach((el => {
@@ -390,10 +402,6 @@
                         el.classList.remove("_active-radar");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 3;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (6 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
                 datasetElements.forEach((el => {
@@ -407,10 +415,6 @@
                         el.classList.remove("_active-radar");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 3;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
             } else if (7 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
                 datasetElements.forEach((el => {
@@ -434,15 +438,9 @@
                         el.classList.remove("_active-radar");
                     }));
                 }), 2e3);
-                let a = sessionStorage.getItem("pl2-points");
-                a -= 1;
-                sessionStorage.setItem("pl2-points", a);
-                if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
             }
         }
         if (targetElement.closest(".button_again") || targetElement.closest(".button_home")) document.querySelector(".win-battleship").classList.remove("_visible");
-        if (targetElement.closest(".button_red")) if (sessionStorage.getItem("tomahawk") >= 0) field_player2.classList.add("_atack");
-        if (targetElement.closest(".button_green")) if (sessionStorage.getItem("radar") >= 0) field_player2.classList.add("_radar");
     }));
     window["FLS"] = true;
     isWebp();
