@@ -627,7 +627,7 @@
                 field_player2.classList.remove("_events");
                 player_one_item.classList.add("_active");
             }
-        }), 2e3);
+        }), 3e3);
     }
     function getRandom(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
