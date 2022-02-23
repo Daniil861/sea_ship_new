@@ -626,9 +626,15 @@ body._loaded {
   position: absolute;
   top: 50%;
   left: 50%;
+  z-index: 2;
   transform: translate(-50%, -50%);
   width: 81%;
-  height: 81%;
+  height: 15.5rem;
+}
+@media (max-width: 50em) {
+  .battleship__field_player1 {
+    height: 12.6875rem;
+  }
 }
 .battleship__field_player2 {
   display: grid;
@@ -664,6 +670,36 @@ body._loaded {
   opacity: 1;
   visibility: visible;
   pointer-events: none;
+}
+.battleship__field_player2._events {
+  pointer-events: none;
+}
+.battleship__pl1 {
+  position: relative;
+}
+.battleship__pl1::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 20px;
+  background-color: #000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease 0s;
+}
+.battleship__pl1._visible .battleship__pl2-image-fire {
+  opacity: 1;
+  visibility: visible;
+  animation: target 0.8s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  z-index: 10;
+}
+.battleship__pl1._past::before {
+  opacity: 1;
+  visibility: visible;
 }
 .battleship__pl2 {
   position: relative;
@@ -760,13 +796,14 @@ body._loaded {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 .win-battleship {
   position: absolute;
   top: -100px;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -798,6 +835,7 @@ body._loaded {
   position: absolute;
   top: 0;
   left: -50px;
+  z-index: 1;
 }
 @media (max-width: 50em) {
   .ship img {
@@ -903,6 +941,9 @@ body._loaded {
   font-size: 0.6875rem;
   line-height: 0.8125rem;
   color: #ffffff;
+}
+.header-battleship__player._active {
+  animation: player 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045) infinite alternate 0s forwards;
 }
 .header-battleship__info {
   width: 6.25rem;
@@ -1203,6 +1244,16 @@ body._loaded {
     opacity: 0.2;
   }
   100% {
+    opacity: 1;
+  }
+}
+@keyframes player {
+  0% {
+    transform: scale(1.2) translateY(-5px);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1) translateY(0px);
     opacity: 1;
   }
 }
