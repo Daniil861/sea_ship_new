@@ -831,6 +831,39 @@ body._loaded {
   margin-bottom: 0.625rem;
 }
 
+.lose-battleship {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+}
+.lose-battleship._visible {
+  top: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.3s ease-in 1.3s;
+}
+.lose-battleship__text {
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 1.8125rem;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 0.625rem;
+}
+.lose-battleship__btn {
+  margin-bottom: 0.625rem;
+}
+
 .ship {
   position: absolute;
   top: 0;
