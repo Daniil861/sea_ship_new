@@ -34,6 +34,7 @@
     if (sessionStorage.getItem("coins")) {
         if (document.querySelector(".game")) document.querySelector(".header__point").innerHTML = sessionStorage.getItem("coins");
         if (document.querySelector(".shop")) document.querySelector(".header__point").innerHTML = sessionStorage.getItem("coins");
+        if (document.querySelector(".battleship")) document.querySelector(".header-battleship__point_player1 span").innerHTML = sessionStorage.getItem("coins");
     }
     if (sessionStorage.getItem("radar")) {
         let a = sessionStorage.getItem("radar");
@@ -46,6 +47,7 @@
         sessionStorage.setItem("tomahawk", 0);
     }
     if (document.querySelector(".battleship")) {
+        document.querySelector(".header-battleship__player_one").classList.add("_active");
         if (sessionStorage.getItem("radar") > 0) document.querySelector(".actives-battleship__image_lock-radar").classList.add("_hide");
         if (sessionStorage.getItem("tomahawk") > 0) document.querySelector(".actives-battleship__image_lock-tomahawk").classList.add("_hide");
         sessionStorage.setItem("pl2-points", 19);
@@ -58,7 +60,10 @@
     const button_preloader_back = document.querySelector(".acces-preloader__button_back");
     const wrapper = document.querySelector(".wrapper");
     const field_player2 = document.querySelector(".battleship__field_player2");
+    const player_one_item = document.querySelector(".header-battleship__player_one");
+    const player_two_item = document.querySelector(".header-battleship__player_two");
     let coins = document.querySelector(".header__point");
+    let coins_game = document.querySelector(".header-battleship__point_player1 span");
     document.addEventListener("click", (e => {
         let targetElement = e.target;
         if (targetElement.closest(".acces-preloader__button")) {
@@ -173,6 +178,9 @@
                 let points = document.querySelector(".header-battleship__point span");
                 setTimeout((() => {
                     points.innerHTML = +points.innerHTML + 100;
+                    let a = +sessionStorage.getItem("coins");
+                    let b = +coins_game.innerHTML;
+                    sessionStorage.setItem("coins", a + b);
                 }), 500);
                 document.querySelector(".header-battleship__point").classList.add("_anim-size");
                 setTimeout((() => {
@@ -180,16 +188,32 @@
                 }), 1e3);
                 if (0 == a) document.querySelector(".win-battleship").classList.add("_visible");
                 targetElement.closest(".battleship__pl2").dataset.target = 0;
+                targetElement.closest(".battleship__pl2").dataset.compl = 0;
             }
-            if (!targetElement.closest(".battleship__pl2").dataset.target) targetElement.closest(".battleship__pl2").classList.add("_past");
+            if (!targetElement.closest(".battleship__pl2").dataset.target) if (!targetElement.closest(".battleship__pl2").classList.contains("_past")) {
+                targetElement.closest(".battleship__pl2").classList.add("_past");
+                playComputer();
+            }
         } else if (targetElement.closest(".battleship__field_player2") && field_player2.classList.contains("_atack")) {
             field_player2.classList.remove("_atack");
             if (1 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
+                let arrCompl = [];
+                datasetElements.forEach((el => {
+                    if (1 == el.dataset.place && 1 == el.dataset.compl && el.dataset.target) arrCompl.push(el);
+                }));
                 if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
                     let a = sessionStorage.getItem("pl2-points");
-                    a -= 1;
+                    a -= arrCompl.length;
                     sessionStorage.setItem("pl2-points", a);
+                }
+                if (arrCompl.length > 0) {
+                    let points = document.querySelector(".header-battleship__point span");
+                    setTimeout((() => {
+                        points.innerHTML = +points.innerHTML + 100 * arrCompl.length;
+                        let b = +coins_game.innerHTML;
+                        sessionStorage.setItem("coins", b);
+                    }), 500);
                 }
                 datasetElements.forEach((el => {
                     if (1 == el.dataset.place) {
@@ -203,21 +227,28 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
+                if (sessionStorage.getItem("pl2-points") <= 0) {
+                    document.querySelector(".win-battleship").classList.add("_visible");
+                    coins_game.innerHTML = +coins_game.innerHTML + 1e4;
+                    let b = +coins_game.innerHTML;
+                    sessionStorage.setItem("coins", b);
+                }
             } else if (2 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
-                let compleat = "";
+                let arrCompl = [];
                 datasetElements.forEach((el => {
-                    if (0 == el.dataset.compl && 2 == el.dataset.place) compleat = false;
+                    if (2 == el.dataset.place && 1 == el.dataset.compl && el.dataset.target) arrCompl.push(el);
                 }));
-                if (0 != targetElement.closest(".battleship__pl2").dataset.compl && false != compleat) {
-                    let a = sessionStorage.getItem("pl2-points");
-                    a -= 4;
-                    sessionStorage.setItem("pl2-points", a);
-                } else if (0 != targetElement.closest(".battleship__pl2").dataset.compl && false == compleat) {
-                    let a = sessionStorage.getItem("pl2-points");
-                    a -= 3;
-                    sessionStorage.setItem("pl2-points", a);
+                let a = sessionStorage.getItem("pl2-points");
+                a -= arrCompl.length;
+                sessionStorage.setItem("pl2-points", a);
+                if (arrCompl.length > 0) {
+                    let points = document.querySelector(".header-battleship__point span");
+                    setTimeout((() => {
+                        points.innerHTML = +points.innerHTML + 100 * arrCompl.length;
+                        let b = +coins_game.innerHTML;
+                        sessionStorage.setItem("coins", b);
+                    }), 500);
                 }
                 datasetElements.forEach((el => {
                     if (2 == el.dataset.place) {
@@ -231,22 +262,33 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
+                if (sessionStorage.getItem("pl2-points") <= 0) {
+                    document.querySelector(".win-battleship").classList.add("_visible");
+                    coins_game.innerHTML = +coins_game.innerHTML + 1e4;
+                    let b = +coins_game.innerHTML;
+                    sessionStorage.setItem("coins", b);
+                }
             } else if (3 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
-                let dataPl_2 = [];
+                let arrCompl = [];
                 datasetElements.forEach((el => {
-                    if (2 == el.dataset.place && 1 == el.dataset.compl) dataPl_2.push(el);
+                    if (3 == el.dataset.place && 1 == el.dataset.compl && el.dataset.target) arrCompl.push(el);
+                    if (3 == el.dataset.else && 1 == el.dataset.compl && el.dataset.target) arrCompl.push(el);
                 }));
-                if (0 != targetElement.closest(".battleship__pl2").dataset.compl && 0 == dataPl_2.length) {
-                    let a = sessionStorage.getItem("pl2-points");
-                    a -= 2;
-                    sessionStorage.setItem("pl2-points", a);
-                } else if (0 != targetElement.closest(".battleship__pl2").dataset.compl && 0 != dataPl_2.length) {
-                    let a = sessionStorage.getItem("pl2-points");
-                    a -= 3;
-                    sessionStorage.setItem("pl2-points", a);
+                let a = sessionStorage.getItem("pl2-points");
+                a -= arrCompl.length;
+                sessionStorage.setItem("pl2-points", a);
+                if (arrCompl.length > 0) {
+                    let points = document.querySelector(".header-battleship__point span");
+                    setTimeout((() => {
+                        points.innerHTML = +points.innerHTML + 100 * arrCompl.length;
+                        let b = +coins_game.innerHTML;
+                        sessionStorage.setItem("coins", b);
+                    }), 500);
                 }
+                datasetElements.forEach((el => {
+                    if (3 == el.dataset.else) el.dataset.compl = 0;
+                }));
                 datasetElements.forEach((el => {
                     if (3 == el.dataset.place) {
                         el.classList.add("_active");
@@ -263,21 +305,28 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
+                if (sessionStorage.getItem("pl2-points") <= 0) {
+                    document.querySelector(".win-battleship").classList.add("_visible");
+                    coins_game.innerHTML = +coins_game.innerHTML + 1e4;
+                    let b = +coins_game.innerHTML;
+                    sessionStorage.setItem("coins", b);
+                }
             } else if (4 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
-                let compleat = "";
+                let arrCompl = [];
                 datasetElements.forEach((el => {
-                    if (0 == el.dataset.compl && 4 == el.dataset.place) compleat = false;
+                    if (4 == el.dataset.place && 1 == el.dataset.compl && el.dataset.target) arrCompl.push(el);
                 }));
-                if (0 != targetElement.closest(".battleship__pl2").dataset.compl && false != compleat) {
-                    let a = sessionStorage.getItem("pl2-points");
-                    a -= 5;
-                    sessionStorage.setItem("pl2-points", a);
-                } else if (0 != targetElement.closest(".battleship__pl2").dataset.compl && false == compleat) {
-                    let a = sessionStorage.getItem("pl2-points");
-                    a -= 3;
-                    sessionStorage.setItem("pl2-points", a);
+                let a = sessionStorage.getItem("pl2-points");
+                a -= arrCompl.length;
+                sessionStorage.setItem("pl2-points", a);
+                if (arrCompl.length > 0) {
+                    let points = document.querySelector(".header-battleship__point span");
+                    setTimeout((() => {
+                        points.innerHTML = +points.innerHTML + 100 * arrCompl.length;
+                        let b = +coins_game.innerHTML;
+                        sessionStorage.setItem("coins", b);
+                    }), 500);
                 }
                 datasetElements.forEach((el => {
                     if (4 == el.dataset.place) {
@@ -291,13 +340,28 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
+                if (sessionStorage.getItem("pl2-points") <= 0) {
+                    document.querySelector(".win-battleship").classList.add("_visible");
+                    coins_game.innerHTML = +coins_game.innerHTML + 1e4;
+                    let b = +coins_game.innerHTML;
+                    sessionStorage.setItem("coins", b);
+                }
             } else if (5 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
-                if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
-                    let a = sessionStorage.getItem("pl2-points");
-                    a -= 3;
-                    sessionStorage.setItem("pl2-points", a);
+                let arrCompl = [];
+                datasetElements.forEach((el => {
+                    if (5 == el.dataset.place && 1 == el.dataset.compl && el.dataset.target) arrCompl.push(el);
+                }));
+                let a = sessionStorage.getItem("pl2-points");
+                a -= arrCompl.length;
+                sessionStorage.setItem("pl2-points", a);
+                if (arrCompl.length > 0) {
+                    let points = document.querySelector(".header-battleship__point span");
+                    setTimeout((() => {
+                        points.innerHTML = +points.innerHTML + 100 * arrCompl.length;
+                        let b = +coins_game.innerHTML;
+                        sessionStorage.setItem("coins", b);
+                    }), 500);
                 }
                 datasetElements.forEach((el => {
                     if (5 == el.dataset.place) {
@@ -311,13 +375,28 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
+                if (sessionStorage.getItem("pl2-points") <= 0) {
+                    document.querySelector(".win-battleship").classList.add("_visible");
+                    coins_game.innerHTML = +coins_game.innerHTML + 1e4;
+                    let b = +coins_game.innerHTML;
+                    sessionStorage.setItem("coins", b);
+                }
             } else if (6 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
-                if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
-                    let a = sessionStorage.getItem("pl2-points");
-                    a -= 3;
-                    sessionStorage.setItem("pl2-points", a);
+                let arrCompl = [];
+                datasetElements.forEach((el => {
+                    if (6 == el.dataset.place && 1 == el.dataset.compl && el.dataset.target) arrCompl.push(el);
+                }));
+                let a = sessionStorage.getItem("pl2-points");
+                a -= arrCompl.length;
+                sessionStorage.setItem("pl2-points", a);
+                if (arrCompl.length > 0) {
+                    let points = document.querySelector(".header-battleship__point span");
+                    setTimeout((() => {
+                        points.innerHTML = +points.innerHTML + 100 * arrCompl.length;
+                        let b = +coins_game.innerHTML;
+                        sessionStorage.setItem("coins", b);
+                    }), 500);
                 }
                 datasetElements.forEach((el => {
                     if (6 == el.dataset.place) {
@@ -335,21 +414,33 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
+                if (sessionStorage.getItem("pl2-points") <= 0) {
+                    document.querySelector(".win-battleship").classList.add("_visible");
+                    coins_game.innerHTML = +coins_game.innerHTML + 1e4;
+                    let b = +coins_game.innerHTML;
+                    sessionStorage.setItem("coins", b);
+                }
             } else if (7 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
-                let dataPl_2 = [];
+                let arrCompl = [];
                 datasetElements.forEach((el => {
-                    if (4 == el.dataset.place && 1 == el.dataset.compl) dataPl_2.push(el);
+                    if (7 == el.dataset.place && 1 == el.dataset.compl && el.dataset.target) arrCompl.push(el);
                 }));
-                if (0 != targetElement.closest(".battleship__pl2").dataset.compl && 0 != dataPl_2.length) {
-                    let a = sessionStorage.getItem("pl2-points");
-                    a -= 2;
-                    sessionStorage.setItem("pl2-points", a);
+                let a = sessionStorage.getItem("pl2-points");
+                a -= arrCompl.length;
+                sessionStorage.setItem("pl2-points", a);
+                if (arrCompl.length > 0) {
+                    let points = document.querySelector(".header-battleship__point span");
+                    setTimeout((() => {
+                        points.innerHTML = +points.innerHTML + 100 * arrCompl.length;
+                        let b = +coins_game.innerHTML;
+                        sessionStorage.setItem("coins", b);
+                    }), 500);
                 }
                 datasetElements.forEach((el => {
                     if (7 == el.dataset.place) el.classList.add("_active");
                     if (7 == el.dataset.else) {
+                        el.dataset.compl = 0;
                         el.classList.add("_active");
                         if (el.dataset.target) el.classList.add("_visible");
                     }
@@ -359,12 +450,28 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
+                if (sessionStorage.getItem("pl2-points") <= 0) {
+                    document.querySelector(".win-battleship").classList.add("_visible");
+                    coins_game.innerHTML = +coins_game.innerHTML + 1e4;
+                    let b = +coins_game.innerHTML;
+                    sessionStorage.setItem("coins", b);
+                }
             } else if (8 == targetElement.closest(".battleship__pl2").dataset.place) {
                 let datasetElements = document.querySelectorAll(".battleship__pl2");
-                if (0 != targetElement.closest(".battleship__pl2").dataset.compl) {
-                    let a = sessionStorage.getItem("pl2-points");
-                    a -= 1;
-                    sessionStorage.setItem("pl2-points", a);
+                let arrCompl = [];
+                datasetElements.forEach((el => {
+                    if (8 == el.dataset.place && 1 == el.dataset.compl && el.dataset.target) arrCompl.push(el);
+                }));
+                let a = sessionStorage.getItem("pl2-points");
+                a -= arrCompl.length;
+                sessionStorage.setItem("pl2-points", a);
+                if (arrCompl.length > 0) {
+                    let points = document.querySelector(".header-battleship__point span");
+                    setTimeout((() => {
+                        points.innerHTML = +points.innerHTML + 100 * arrCompl.length;
+                        let b = +coins_game.innerHTML;
+                        sessionStorage.setItem("coins", b);
+                    }), 500);
                 }
                 datasetElements.forEach((el => {
                     if (8 == el.dataset.place) {
@@ -378,7 +485,12 @@
                         el.classList.remove("_active");
                     }));
                 }), 2e3);
-                if (0 == sessionStorage.getItem("pl2-points")) document.querySelector(".win-battleship").classList.add("_visible");
+                if (sessionStorage.getItem("pl2-points") <= 0) {
+                    document.querySelector(".win-battleship").classList.add("_visible");
+                    coins_game.innerHTML = +coins_game.innerHTML + 1e4;
+                    let b = +coins_game.innerHTML;
+                    sessionStorage.setItem("coins", b);
+                }
             }
         } else if (targetElement.closest(".battleship__field_player2") && field_player2.classList.contains("_radar")) {
             field_player2.classList.remove("_radar");
@@ -487,6 +599,39 @@
         }
         if (targetElement.closest(".button_again") || targetElement.closest(".button_home")) document.querySelector(".win-battleship").classList.remove("_visible");
     }));
+    let arr_complite_num = [];
+    function playComputer() {
+        player_one_item.classList.remove("_active");
+        player_two_item.classList.add("_active");
+        field_player2.classList.add("_events");
+        setTimeout((() => {
+            let arrAll = document.querySelectorAll(".battleship__pl1");
+            let number = getRandom(1, 100);
+            if (true == arr_complite_num.includes(number)) {
+                playComputer();
+                return false;
+            }
+            arr_complite_num.push(number);
+            console.log(arr_complite_num);
+            console.log(arrAll[number]);
+            if (arrAll[number].dataset.target) {
+                let a = +sessionStorage.getItem("pl1-points");
+                sessionStorage.setItem("pl1-points", a - 1);
+                console.log("yeeea");
+                arrAll[number].classList.add("_visible");
+                if (0 == a) console.log("you loose");
+                setTimeout(playComputer, 2e3);
+            } else {
+                arrAll[number].classList.add("_past");
+                player_two_item.classList.remove("_active");
+                field_player2.classList.remove("_events");
+                player_one_item.classList.add("_active");
+            }
+        }), 2e3);
+    }
+    function getRandom(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
     window["FLS"] = true;
     isWebp();
 })();
