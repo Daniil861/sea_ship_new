@@ -612,14 +612,12 @@
                 return false;
             }
             arr_complite_num.push(number);
-            console.log(arr_complite_num);
-            console.log(arrAll[number]);
             if (arrAll[number].dataset.target) {
                 let a = +sessionStorage.getItem("pl1-points");
                 sessionStorage.setItem("pl1-points", a - 1);
                 console.log("yeeea");
                 arrAll[number].classList.add("_visible");
-                if (0 == a) console.log("you loose");
+                if (0 == a) document.querySelector(".lose-battleship").classList.add("_visible");
                 setTimeout(playComputer, 2e3);
             } else {
                 arrAll[number].classList.add("_past");
