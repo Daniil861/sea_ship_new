@@ -64,6 +64,7 @@
     const player_two_item = document.querySelector(".header-battleship__player_two");
     let coins = document.querySelector(".header__point");
     let coins_game = document.querySelector(".header-battleship__point_player1 span");
+    let coins_comp = document.querySelector(".header-battleship__point_player2");
     document.addEventListener("click", (e => {
         let targetElement = e.target;
         if (targetElement.closest(".acces-preloader__button")) {
@@ -617,8 +618,14 @@
             if (arrAll[number].dataset.target) {
                 let a = +sessionStorage.getItem("pl1-points");
                 sessionStorage.setItem("pl1-points", a - 1);
-                console.log("yeeea");
                 arrAll[number].classList.add("_visible");
+                setTimeout((() => {
+                    coins_comp.innerHTML = +coins_comp.innerHTML + 100;
+                }), 600);
+                document.querySelector(".header-battleship__point_player2").classList.add("_anim-size");
+                setTimeout((() => {
+                    document.querySelector(".header-battleship__point_player2").classList.remove("_anim-size");
+                }), 1e3);
                 if (0 == a) document.querySelector(".lose-battleship").classList.add("_visible");
                 setTimeout(playComputer, 2e3);
             } else {
