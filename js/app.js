@@ -192,6 +192,8 @@
             }
             if (!targetElement.closest(".battleship__pl2").dataset.target) if (!targetElement.closest(".battleship__pl2").classList.contains("_past")) {
                 targetElement.closest(".battleship__pl2").classList.add("_past");
+                document.querySelector(".button_green").classList.add("_events");
+                document.querySelector(".button_red").classList.add("_events");
                 playComputer();
             }
         } else if (targetElement.closest(".battleship__field_player2") && field_player2.classList.contains("_atack")) {
@@ -624,6 +626,8 @@
                 player_two_item.classList.remove("_active");
                 field_player2.classList.remove("_events");
                 player_one_item.classList.add("_active");
+                document.querySelector(".button_green").classList.remove("_events");
+                document.querySelector(".button_red").classList.remove("_events");
             }
         }), 3e3);
     }
