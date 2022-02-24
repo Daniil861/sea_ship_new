@@ -181,10 +181,16 @@ body._loaded {
   box-shadow: 0px 5.76271px 5.76271px rgba(0, 0, 0, 0.25);
   border-radius: 14.4068px;
 }
+.button_red._events {
+  pointer-events: none;
+}
 .button_green {
   background: linear-gradient(180deg, #00b2bd 0%, #1eff0b 100%);
   box-shadow: 0px 5.76271px 5.76271px rgba(0, 0, 0, 0.25);
   border-radius: 14.4068px;
+}
+.button_green._events {
+  pointer-events: none;
 }
 .button__text {
   font-size: 1.25rem;
