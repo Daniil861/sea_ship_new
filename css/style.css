@@ -1336,6 +1336,9 @@ body._loaded {
   top: -0.625rem;
   transform: translateX(-50%);
 }
+.footer-slotmashine__text-bet._anim {
+  animation: move-bet 0.6s ease;
+}
 .footer-slotmashine__win {
   position: relative;
   background: #000000;
@@ -1550,5 +1553,17 @@ body._loaded {
   100% {
     transform: scale(1) translateY(0px);
     opacity: 1;
+  }
+}
+@keyframes move-bet {
+  0% {
+    transform: translate(-50%, 0);
+  }
+  70% {
+    transform: translate(-50%, -2px) scale(1.1);
+    color: #e76565;
+  }
+  100% {
+    transform: translate(-50%, 0);
   }
 }
