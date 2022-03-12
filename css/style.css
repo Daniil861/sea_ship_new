@@ -137,6 +137,7 @@ body._loaded {
 }
 .wrapper_slot {
   background: url("../img/slotmashine/slot-bg.jpg") center/cover no-repeat;
+  position: relative;
 }
 .wrapper > main {
   flex: 1 1 auto;
@@ -1214,7 +1215,7 @@ body._loaded {
   bottom: 0;
 }
 .slotmashine__inner {
-  height: calc(100vh - 130px);
+  height: calc(100vh - 60px);
 }
 .slotmashine__wrapper {
   height: 100%;
