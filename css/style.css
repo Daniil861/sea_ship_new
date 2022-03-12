@@ -1227,6 +1227,11 @@ body._loaded {
   margin: 0 auto;
   background: url("../img/slotmashine/slot_bg-1.jpg") center/cover no-repeat;
 }
+@media (min-height: 23.75em) {
+  .slotmashine__box {
+    height: calc(100vh - 125px);
+  }
+}
 .slotmashine__cont {
   display: flex;
   background: url("../img/slotmashine/bg-slot.png") center/110% 110% no-repeat;
