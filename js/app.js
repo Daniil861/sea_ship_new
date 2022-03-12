@@ -447,6 +447,7 @@
     let coins_game = document.querySelector(".header-battleship__point_player1 span");
     let coins_comp = document.querySelector(".header-battleship__point_player2");
     let point_win = document.querySelector(".footer-slotmashine__win-text");
+    let bet = document.querySelector(".footer-slotmashine__bet-text");
     document.addEventListener("click", (e => {
         let targetElement = e.target;
         if (targetElement.closest(".acces-preloader__button")) {
@@ -1048,10 +1049,9 @@
             delay: 400,
             onComplete: function(active) {
                 a = this.active;
-                console.log(a);
                 if (666 != a && 666 != b && 666 != c && 666 != d && 666 != e) if (a == b && b == c && c == d && d == e) {
-                    coins.innerHTML = +coins.innerHTML + 1e5;
-                    point_win.innerHTML = +point_win.innerHTML + 1e5;
+                    coins.innerHTML = +coins.innerHTML + 100 * bet;
+                    point_win.innerHTML = +point_win.innerHTML + 100 * bet;
                     coins.classList.add("_anim");
                     point_win.classList.add("_anim");
                     setTimeout((() => {
@@ -1067,10 +1067,9 @@
             delay: 400,
             onComplete: function(active) {
                 b = this.active;
-                console.log(b);
                 if (666 != a && 666 != b && 666 != c && 666 != d && 666 != e) if (a == b && b == c && c == d && d == e) {
-                    coins.innerHTML = +coins.innerHTML + 1e5;
-                    point_win.innerHTML = +point_win.innerHTML + 1e5;
+                    coins.innerHTML = +coins.innerHTML + 100 * bet;
+                    point_win.innerHTML = +point_win.innerHTML + 100 * bet;
                     coins.classList.add("_anim");
                     point_win.classList.add("_anim");
                     setTimeout((() => {
@@ -1086,10 +1085,9 @@
             delay: 400,
             onComplete: function(active) {
                 c = this.active;
-                console.log(c);
                 if (666 != a && 666 != b && 666 != c && 666 != d && 666 != e) if (a == b && b == c && c == d && d == e) {
-                    coins.innerHTML = +coins.innerHTML + 1e5;
-                    point_win.innerHTML = +point_win.innerHTML + 1e5;
+                    coins.innerHTML = +coins.innerHTML + 100 * bet;
+                    point_win.innerHTML = +point_win.innerHTML + 100 * bet;
                     coins.classList.add("_anim");
                     point_win.classList.add("_anim");
                     setTimeout((() => {
@@ -1105,10 +1103,9 @@
             delay: 400,
             onComplete: function(active) {
                 d = this.active;
-                console.log(d);
                 if (666 != a && 666 != b && 666 != c && 666 != d && 666 != e) if (a == b && b == c && c == d && d == e) {
-                    coins.innerHTML = +coins.innerHTML + 1e5;
-                    point_win.innerHTML = +point_win.innerHTML + 1e5;
+                    coins.innerHTML = +coins.innerHTML + 100 * bet;
+                    point_win.innerHTML = +point_win.innerHTML + 100 * bet;
                     coins.classList.add("_anim");
                     point_win.classList.add("_anim");
                     setTimeout((() => {
@@ -1124,10 +1121,9 @@
             delay: 400,
             onComplete: function(active) {
                 e = this.active;
-                console.log(e);
                 if (666 != a && 666 != b && 666 != c && 666 != d && 666 != e) if (a == b && b == c && c == d && d == e) {
-                    coins.innerHTML = +coins.innerHTML + 1e5;
-                    point_win.innerHTML = +point_win.innerHTML + 1e5;
+                    coins.innerHTML = +coins.innerHTML + 100 * bet;
+                    point_win.innerHTML = +point_win.innerHTML + 100 * bet;
                     coins.classList.add("_anim");
                     point_win.classList.add("_anim");
                     setTimeout((() => {
@@ -1140,6 +1136,9 @@
         });
         function gameSlotTwo() {
             document.querySelector(".footer-slotmashine__button-play_spin").classList.add("_hold");
+            let slot_coins = +coins.innerHTML;
+            coins.innerHTML = slot_coins - +bet.innerHTML;
+            sessionStorage.setItem("coins", coins.innerHTML);
             setTimeout((() => {
                 document.querySelector(".footer-slotmashine__button-play_spin").classList.remove("_hold");
             }), 2e3);
