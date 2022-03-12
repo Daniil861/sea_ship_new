@@ -1137,21 +1137,34 @@
         function gameSlotTwo() {
             document.querySelector(".footer-slotmashine__button-play_spin").classList.add("_hold");
             let slot_coins = +coins.innerHTML;
-            coins.innerHTML = slot_coins - +bet.innerHTML;
-            sessionStorage.setItem("coins", coins.innerHTML);
-            setTimeout((() => {
-                document.querySelector(".footer-slotmashine__button-play_spin").classList.remove("_hold");
-            }), 2e3);
-            mcasino1.shuffle(9999);
-            mcasino2.shuffle(9999);
-            mcasino3.shuffle(9999);
-            mcasino4.shuffle(9999);
-            mcasino5.shuffle(9999);
-            setTimeout((() => mcasino1.stop()), getRandomArbitrary(minTime, maxTime));
-            setTimeout((() => mcasino2.stop()), getRandomArbitrary(minTime, maxTime));
-            setTimeout((() => mcasino3.stop()), getRandomArbitrary(minTime, maxTime));
-            setTimeout((() => mcasino4.stop()), getRandomArbitrary(minTime, maxTime));
-            setTimeout((() => mcasino5.stop()), getRandomArbitrary(minTime, maxTime));
+            if (slot_coins >= +bet.innerHTML) {
+                coins.innerHTML = slot_coins - +bet.innerHTML;
+                sessionStorage.setItem("coins", coins.innerHTML);
+                setTimeout((() => {
+                    document.querySelector(".footer-slotmashine__button-play_spin").classList.remove("_hold");
+                }), 2e3);
+                mcasino1.shuffle(9999);
+                mcasino2.shuffle(9999);
+                mcasino3.shuffle(9999);
+                mcasino4.shuffle(9999);
+                mcasino5.shuffle(9999);
+                setTimeout((() => mcasino1.stop()), getRandomArbitrary(minTime, maxTime));
+                setTimeout((() => mcasino2.stop()), getRandomArbitrary(minTime, maxTime));
+                setTimeout((() => mcasino3.stop()), getRandomArbitrary(minTime, maxTime));
+                setTimeout((() => mcasino4.stop()), getRandomArbitrary(minTime, maxTime));
+                setTimeout((() => mcasino5.stop()), getRandomArbitrary(minTime, maxTime));
+            } else {
+                coins.classList.add("_anim-no-money");
+                setTimeout((() => {
+                    document.querySelector(".footer-slotmashine__text-bet").classList.add("_anim");
+                }), 700);
+                setTimeout((() => {
+                    coins.classList.remove("_anim-no-money");
+                }), 600);
+                setTimeout((() => {
+                    document.querySelector(".footer-slotmashine__text-bet").classList.remove("_anim");
+                }), 1300);
+            }
         }
         var casinoAutoSpin;
         if (document.querySelector(".footer-slotmashine__button-play_spin")) document.querySelector(".footer-slotmashine__button-play_spin").addEventListener("click", (() => {
